@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
@@ -6,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import SeniorDigitalLogo from '@/SeniorDigital.png'; // Importez l'image ici
 
 const Header: React.FC = () => {
   const { session, user, profile, signOut, hasRole } = useAuth();
@@ -22,12 +24,12 @@ const Header: React.FC = () => {
   return (
     <header className="fixed top-0 left-0 right-0 bg-white z-30 border-b border-gray-100">
       <div className="container mx-auto flex justify-between items-center h-16 px-4">
-        {/* Logo */}
+        <img src={SeniorDigitalLogo} alt="Le digital à mon rythme" width="110"/> {/* Utilisez l'image importée */}
         <Link to="/" className="flex items-center space-x-2">
-          <span className="font-bold text-xl text-tranches-charcoal font-serif">Tranches de vie</span>
+          <span className="font-bold text-xl text-tranches-charcoal font-serif"></span>
         </Link>
 
-        {/* Navigation principale */}
+        {/* Reste du code inchangé */}
         <nav className="hidden md:flex space-x-8">
           <Link to="/" className="text-gray-600 hover:text-tranches-sage transition-colors">
             Accueil
@@ -68,8 +70,6 @@ const Header: React.FC = () => {
                   <DropdownMenuItem asChild>
                     <Link to="/profile">Profil</Link>
                   </DropdownMenuItem>
-
-                  {/* Menu admin */}
                   {hasRole('admin') && (
                     <>
                       <DropdownMenuSeparator />
@@ -83,10 +83,11 @@ const Header: React.FC = () => {
                       <DropdownMenuItem asChild>
                         <Link to="/admin/albums">Albums</Link>
                       </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/admin/life-stories">Histoires de vie</Link>
+                      </DropdownMenuItem>
                     </>
                   )}
-                  
-                  {/* Menu éditeur */}
                   {!hasRole('admin') && hasRole('editor') && (
                     <>
                       <DropdownMenuSeparator />
@@ -96,7 +97,6 @@ const Header: React.FC = () => {
                       </DropdownMenuItem>
                     </>
                   )}
-                  
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout}>
                     Déconnexion
@@ -153,6 +153,9 @@ const Header: React.FC = () => {
                           </Link>
                           <Link to="/admin/albums" className="hover:text-tranches-sage transition-colors">
                             Albums
+                          </Link>
+                          <Link to="/admin/life-stories" className="hover:text-tranches-sage transition-colors">
+                            Histoires de vie
                           </Link>
                         </>
                       )}

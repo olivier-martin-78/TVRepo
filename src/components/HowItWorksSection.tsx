@@ -7,12 +7,12 @@ const HowItWorksSection = () => {
     {
       icon: <Mail className="w-12 h-12 text-tranches-charcoal" />,
       title: "La demande",
-      description: "Une personne âgée ou un proche exprime un souhait : \"J'aimerais revoir cette amie\", \"Revenir là où j'ai grandi\", \"Laisser un message à mon petit-fils\"."
+      description: "Une personne âgée ou un proche exprime un souhait : \"J'aimerais me former au digital\", \"Revenir là où j'ai grandi\", \"Laisser un message à mon petit-fils\"."
     },
     {
       icon: <MapPin className="w-12 h-12 text-tranches-charcoal" />,
       title: "La mission",
-      description: "Nous organisons une \"tranche de vie\" : une micro-expérience personnalisée, douce et humaine, grâce à notre accompagnement."
+      description: "Nous organisons une micro-expérience personnalisée, douce et humaine, grâce à notre accompagnement."
     },
     {
       icon: <Video className="w-12 h-12 text-tranches-charcoal" />,

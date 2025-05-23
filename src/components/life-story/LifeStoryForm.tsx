@@ -12,13 +12,42 @@ interface LifeStoryFormProps {
 }
 
 export const LifeStoryForm: React.FC<LifeStoryFormProps> = ({ existingStory }) => {
-  // Si aucune histoire existante ou s'il n'y a pas de chapitres, utiliser les chapitres initiaux
-  const storyWithChapters = existingStory && existingStory.chapters.length > 0 
-    ? existingStory 
-    : { 
-        ...existingStory, 
-        chapters: initialChapters 
-      };
+  // Toujours utiliser tous les chapitres initiaux pour tous les utilisateurs
+  const storyWithChapters = {
+    ...existingStory,
+    chapters: initialChapters,
+    // Si une histoire existe, préserver les réponses existantes sans filtrer les chapitres ou questions
+    ...(existingStory && {
+      chapters: initialChapters.map(initialChapter => {
+        // Chercher le chapitre correspondant dans l'histoire existante
+        const existingChapter = existingStory.chapters.find(ch => ch.id === initialChapter.id);
+        
+        // Préserver les réponses des questions existantes, mais garantir que TOUTES les questions
+        // du chapitre initial sont présentes
+        return {
+          ...initialChapter,
+          questions: initialChapter.questions.map(initialQuestion => {
+            // Chercher si cette question existe déjà dans les données de l'utilisateur
+            const existingQuestion = existingChapter?.questions.find(q => q.id === initialQuestion.id);
+            
+            // Si la question existe, préserver sa réponse et l'audio
+            if (existingQuestion) {
+              return {
+                ...initialQuestion,
+                answer: existingQuestion.answer || initialQuestion.answer,
+                audioUrl: existingQuestion.audioUrl || initialQuestion.audioUrl,
+                audioBlob: existingQuestion.audioBlob || initialQuestion.audioBlob,
+              };
+            }
+            
+            return initialQuestion;
+          }),
+        };
+      }),
+    }),
+  };
+
+  console.log('Histoire avec chapitres complets:', storyWithChapters);
 
   const {
     data,
